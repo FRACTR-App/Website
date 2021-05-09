@@ -38,20 +38,20 @@
             </div>
         </div>
     </nav>
-    <div class="container text-center">
-        <div class="p-4 my-4 bg-light text-dark rounded-3">
+    <div class="container">
+        <div class="p-4 my-4 bg-light text-dark text-center rounded-3">
             <h1>FRACTR: Fire Resource Area Coverage & Response Times</h1>
             <h5>
                 Providing Vermont with a visual analysis of fire department response times and water resources in order to 
-                support regional emergency planning and public awareness.
+                support regional emergency planning and public awareness
             </h5>
         </div>
 
-        <div class="row">
+        <div class="row text-center">
             <div class="col-md-6">
                 <a href="response_by_esn.html"><img src="./images/esn.png" class="img-responsive" style="width:100%"
                         alt="map of response times by service zones"></a>
-                <p>Map of response times from fire stations, bounded by emergency serivce zones</p>
+                <p>Map of response times from fire stations, bounded by serivce zones</p>
             </div>
             <div class="col-md-6">
                 <a href="response_by_esn.html"><img src="./images/state.png" class="img-responsive" style="width:100%"
@@ -61,15 +61,32 @@
         </div>
         <div class="row">
             <div class="col-md-6">
-                <h4>Why Are These Maps Important?</h4>
+                <h4 class="text-center">Why Are These Maps Important?</h4>
+                <p class="text-justify">
+                    In the fire service, timing is key, and fire departments strive to respond as effectively 
+                    and safely as possible with the goal of protecting life, property, and the environment. 
+                    On any given call, even an increased response time of several minutes can have profound 
+                    consequences on medical outcomes and fire growth. Additionally, fire crews who make it to 
+                    the scene require access to the proper tools and resources to mitigate the threat (such as 
+                    a nearby water source in the event of a fire). As a result, pre-incident plans, that includes 
+                    maps of response times and water resource locations, should be accessible to fire departments, 
+                    regional planning commissions, and local residents, giving them time to prepare for incidents 
+                    in harder to reach areas and making it possible to identify sites where future fire stations 
+                    can be built to maximize coverage.
+                </p>
             </div>
             <div class="col-md-6">
-                <h4>The Map Building Process</h4>
+                <h4 class="text-center">The Map Building Process</h4>
+                <ol class="text-justify">
+                    <li>Site Locations, Fire Dept. Emergency Service Zones, and State of Vermont boundary datasets are all collected from the Vermont Open Geodata Portal. Road data is provided by Open Street Maps. </li>
+                    <li>Utilizing the Geopandas and OSMnx Python packages, we performed network analyses to create multiple spatial polygon layers based on the response times from every fire station. Dijkstra's shortest-path algorithm is performed on the street network graph. Road distances and speed limits are used to calculate the travel time across an edge. </li>
+                    <li>Using the Leaflet JS package, we display these polygon layers to an interactive map.</li>
+                </ol>
             </div>
         </div>
         <div class="row">
             <div class="col-md-6">
-                <h4>Ethical Implications</h4>
+                <h4 class="text-center">Ethical Implications</h4>
                 <p class="text-justify">
                     These maps offer rough estimates of response times and should not be interpreted as exact, 
                     reliable fact. Additionally, future homeowners and insurance companies might use our application 
@@ -81,10 +98,27 @@
                 </p>
             </div>
             <div class="col-md-6">
-                <h4>Fire Safety Resources</h4>
+                <h4 class="text-center">Fire Safety Resources</h4>
+                <ul style="list-style-type:none;">
+                    <li>
+                        <a href="https://www.nfpa.org/Public-Education">National Fire Protection Association</a>
+                    </li>
+                    <li>
+                        <a href="https://www.usfa.fema.gov/prevention/outreach/#materials">U.S. Fire Administration</a>
+                    </li>
+                    <li>
+                        <a href="https://firesafety.vermont.gov/pubed">Vermont Division of Fire Safety</a>
+                    </li>
+                    <li>
+                        <a href="https://www.redcross.org/get-help/how-to-prepare-for-emergencies/types-of-emergencies/fire.html">American Red Cross</a>
+                    </li>
+                    <li>
+                        <a href="https://geodata.vermont.gov/">Vermont Open Geodata Portal</a>
+                    </li>
+                </ul>
             </div>
         </div>
-        <div class="p-4 my-4 bg-light text-dark rounded-3">
+        <div class="p-4 my-4 bg-light text-dark text-center rounded-3">
             <h4>Links to our code repository and report</h4>
             <ul class="list-inline">
                 <li class="list-inline-item"><a href="https://github.com/This-blank-Is-On-Fire/FRACTR.git"><i
@@ -92,7 +126,7 @@
                 <li class="list-inline-item">Add link to report PDF here</li>
             </ul>
             <h4>Meet the developers</h4>
-            <p>This is a Middlebury College Department of Computer Science Senior Seminar project, under the
+            <p>This is a Middlebury College Department of Computer Science Senior Seminar project under the
                 guidance of Prof.
                 Andrea Vaccari.</p>
             <div class="row">
