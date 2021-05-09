@@ -2,5 +2,14 @@ selector {
     attribute: value;
 }
 h1 {
-    color: red;
+    color:#333333;
+}
+h2 {
+    color:#333333;
+}
+h4 {
+    color:#333333;
+}
+h5 {
+    color:#333333;
 }
