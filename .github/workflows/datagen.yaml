@@ -1,0 +1,26 @@
+name: generate-geojson-files
+  on: [push] # just for testing purposes
+    # schedule:
+    #   - cron: '@weekly'
+
+jobs:
+  generate-files:
+    name: Generate GeoJson Files
+    runs-on: ubuntu-latest
+
+    defaults: # for conda
+        run:
+          shell: bash -l {0}
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up Conda Python 3.9
+      uses: conda-incubator/setup-miniconda@v2
+      with:
+        activate-environment: ox
+        python-version: 3.9.2
+
+    - name: Install OSMNX
+      run: |
+        conda install -c conda-forge osmnx 
