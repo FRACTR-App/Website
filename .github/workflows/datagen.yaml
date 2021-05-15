@@ -1,7 +1,5 @@
 name: generate-geojson-files
-  on: [push] # just for testing purposes
-    # schedule:
-    #   - cron: '@weekly'
+on: [push]
 
 jobs:
   generate-files:
