@@ -6,7 +6,7 @@ jobs:
     name: Generate GeoJson Files
     runs-on: ubuntu-latest
 
-    defaults: # for conda
+    defaults: # conda needs this
         run:
           shell: bash -l {0}
 
