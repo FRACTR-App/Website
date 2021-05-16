@@ -23,3 +23,6 @@ h5 {
     height: 88vh;
     margin-left: 5vw;
 }
+body {
+    padding-bottom: 30px;
+}

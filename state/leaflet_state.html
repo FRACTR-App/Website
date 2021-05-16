@@ -101,7 +101,7 @@
             tileSize: 512,
             zoomOffset: -1,
             accessToken: 'pk.eyJ1IjoiamNhbWJlZm9ydCIsImEiOiJja2x6Ym4xaGQwOWUxMnVyM3J2aW54bXhuIn0.vIUQw48WSxIujl74dYNqkA'
-        });
+        }).addTo(mymap);
 
         color_list = ['#1e1656', '#8b2a57', '#c26b4c', '#cbbb65']
         // Path needs the trailing slash
@@ -183,7 +183,7 @@
         let poly5_path = base_dir.concat("5.geojson");
         let poly10_path = base_dir.concat("10.geojson");
         let poly20_path = base_dir.concat("20.geojson");
-        let stations_path = base_dir.concat("fire_station_coords.geojson");
+        let stations_path = base_dir.concat("fire_station_coords.geojson").addTo(mymap);
         let dissolved_path = base_dir.concat("dissolved_zones.geojson");
 
         var poly2 = L.geoJSON(null, {style:poly_style1} );
@@ -227,9 +227,6 @@
         stations.bindPopup(function (layer) {
             return layer.feature.properties.TOWNNAME;
         });
-
-        baseMap.addTo(mymap);
-        stations.addTo(mymap);
         
         // Add the 20 minute polygon layer first (should be on the bottom)
         poly20.addTo(mymap);
