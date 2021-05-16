@@ -22,3 +22,8 @@ jobs:
     - name: Install OSMNX
       run: |
         conda install -c conda-forge osmnx 
+
+    - name: Install packages
+      run: |
+        pip install tqdm
+        pip install alphashape
