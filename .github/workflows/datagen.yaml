@@ -12,6 +12,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+        persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
+        fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
 
     - name: Set up Conda Python 3.9
       uses: conda-incubator/setup-miniconda@v2
@@ -23,7 +25,23 @@ jobs:
       run: |
         conda install -c conda-forge osmnx 
 
-    - name: Install packages
+    - name: Install other packages
       run: |
         pip install tqdm
         pip install alphashape
+
+    - name: Generate state polygons
+      run: |
+        touch test_file.txt
+
+    - name: Commit files
+      run: |
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git commit -m "Add changes" -a
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.PUSH_ACTION_TOKEN }}
+        branch: ${{ github.ref }}
