@@ -22,9 +22,9 @@ jobs:
         activate-environment: ox
         python-version: 3.9.2
 
-    # - name: Install OSMNX
-    #   run: |
-    #     conda install -c conda-forge osmnx 
+    - name: Install OSMNX
+      run: |
+        conda install -c conda-forge osmnx 
 
     - name: Install other packages
       run: |
@@ -33,7 +33,7 @@ jobs:
 
     - name: Generate state polygons
       run: |
-        touch test_file.txt
+        python python-file-gen/network_analysis
 
     - name: Commit files
       run: |
