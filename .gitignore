@@ -2,3 +2,4 @@
 *.json
 *.graphml
 *.pyc
+*.DS_Store
