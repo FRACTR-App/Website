@@ -33,7 +33,7 @@ jobs:
 
     - name: Generate state polygons
       run: |
-        python python-file-gen/network_analysis
+        python python-file-gen/network_analysis.py
 
     - name: Commit files
       run: |
