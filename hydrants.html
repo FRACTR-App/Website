@@ -169,14 +169,14 @@
             "Hydrants with unknown flowrate": unknown
         }
 
-        L.control.layers(null, overlays).addTo(mymap);
+        L.control.layers(null, overlays, {collapsed: false}).addTo(mymap);
 
         function getColor(d) {
             return d.includes("Green") ? color_list[0] :
-                d.includes("Orange") ? color_list[1] :
-                d.includes("Red") ? color_list[2] :
-                d.includes("unknown") ? color_list[3] :
-                            '#FFEDA0';
+                    d.includes("Orange") ? color_list[1] :
+                    d.includes("Red") ? color_list[2] :
+                    d.includes("unknown") ? color_list[3] :
+                    '#FFEDA0';
         }
 
         // Include a map legend

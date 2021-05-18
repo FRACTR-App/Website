@@ -225,14 +225,14 @@
 	        "Fire Dept. Emergency Service Zones": dissolved
         }
 
-        L.control.layers(null, overlays).addTo(mymap);
+        L.control.layers(null, overlays, {collapsed: false}).addTo(mymap);
 
         function getColor(d) {
             return d.includes("2 ") ? color_list[0] :
-                d.includes("5 ") ? color_list[1] :
-                d.includes("10 ") ? color_list[2] :
-                d.includes("20 ") ? color_list[3] :
-                            '#FFEDA0';
+                    d.includes("5 ") ? color_list[1] :
+                    d.includes("10 ") ? color_list[2] :
+                    d.includes("20 ") ? color_list[3] :
+                    '#FFEDA0';
         }
 
         // Include a map legend
