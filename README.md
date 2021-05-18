@@ -1,4 +1,4 @@
-# This-blank-Is-On-Fire.github.io
+# FRACTR Website
 
 Website files for the Fire Resource Area Coverage Time to Response (FRACTR) Project.
 
