@@ -1,8 +1,10 @@
 # FRACTR Website
 
-Website files for the Fire Resource Area Coverage Time to Response (FRACTR) Project.
+Files for the Fire Resource Area Coverage Time to Response (FRACTR) project website.
 
-The code that generates the response time and hydrant polygon layers is located in the project's main [FRACTR repository](https://github.com/This-blank-Is-On-Fire/FRACTR).
+### Public GeoJson Data
+
+The code that generates all data below is located in the project's main [FRACTR repository](https://github.com/This-blank-Is-On-Fire/FRACTR).
 
 The [data folder](https://github.com/This-blank-Is-On-Fire/Website/tree/master/data) contains all geoJson files displayed to the website.
  - Fire station coordinates (`fire_station_coords.geojson`)
