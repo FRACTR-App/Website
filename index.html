@@ -48,18 +48,36 @@
         </div>
 
         <div class="row text-center">
-            <div class="col-md-6">
-                <a href="esn.html"><img src="images/esn.png" class="img-responsive" style="width:100%"
-                        alt="map of response times by service zones"></a>
-                <p>Map of response times from fire stations, bounded by service zones</p>
+            <div class="col-md-4">
+                <div class="img-wrapper">
+                    <img src="images/esn.png" class="img-responsive" style="width:100%"
+                        alt="Map of response times from fire stations, bounded by service zones">
+                    <div class="img-overlay">
+                      <button class="btn btn-md btn-success" onclick="location.href='esn.html';">Access Map</button>
+                    </div>
+                  </div>
             </div>
-            <div class="col-md-6">
-                <a href="state.html"><img src="images/state.png" class="img-responsive" style="width:100%"
-                        alt="map of response times"></a>
-                <p>Map of response times from fire stations, unbounded</p>
+            <div class="col-md-4">
+                <div class="img-wrapper">
+                    <img src="images/state.png" class="img-responsive" style="width:100%"
+                        alt="Map of response times from fire stations, unbounded">
+                    <div class="img-overlay">
+                      <button class="btn btn-md btn-success" onclick="location.href='state.html';">Access Map</button>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="row">
+            <div class="col-md-4">
+                <div class="img-wrapper">
+                    <img src="images/hydrants.jpeg" class="img-responsive" style="width:100%"
+                        alt="Map of fire hydrant coverage">
+                    <div class="img-overlay">
+                      <button class="btn btn-md btn-success" onclick="location.href='hydrants.html';">Access Map</button>
+                    </div>
+                </div>
+            </div>
+        </div>       
+
+        <div class="row mt-4">
             <div class="col-md-6">
                 <h4 class="text-center">Why Are These Maps Important?</h4>
                 <p class="text-justify">
@@ -121,7 +139,7 @@
         <div class="p-4 my-4 bg-light text-dark text-center rounded-3">
             <h4>Links to our code repository and report</h4>
             <ul class="list-inline">
-                <li class="list-inline-item"><a href="https://github.com/This-blank-Is-On-Fire/FRACTR.git"><i
+                <li class="list-inline-item"><a href="https://github.com/This-blank-Is-On-Fire"><i
                             class="bi-github" role="img" aria-label="GitHub"></i></a></li>
                 <li class="list-inline-item">Add link to report PDF here</li>
             </ul>
