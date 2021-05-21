@@ -33,3 +33,8 @@ A concern of ours is that future homeowners and insurance companies may seek to 
 these areas. We recognize these possibilities and remind our users that these maps offer estimates and should be used for public governance, citizen awareness, and emergency planning. Our hope is that regional planning commissions and state emergency planners can use these maps to inform their work and increase coverage across the state.
 
 If you have any issues with these maps, please reach out to us at [jcambefort@middlebury.edu](mailto:jcambefort@middlebury.edu) and [halcyonb@middlebury.edu](mailto:halcyonb@middlebury.edu), as we would be happy to hear your thoughts.
+
+
+### Acknowledgments
+
+Thank you to Middlebury Fire Department Chief David Shaw and Andrew L'Roe at the Addison County Regional Planning Commission for their input on local datasets and the Vermont fire service, and for troubleshooting our website. Thank you very much to Bill Hegman, Prof. Holler, Prof. Kimambo, and Kufre Udoh from the Middlebury College Geography Department for their insights into network analysis and working with raster and vector data. Thank you to Prof. Vaccari for overseeing the Computer Science Senior Seminar course and guiding us through this process.
