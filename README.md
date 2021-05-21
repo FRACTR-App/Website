@@ -15,7 +15,7 @@ The [data folder](https://github.com/This-blank-Is-On-Fire/Website/tree/master/d
  - Response time polygons, where network analysis is bounded by state-defined Emergency Service Zones, aka ESNs (e.g., `2_esn.geojson`)
  - Hydrant locations surrounded by circle polygons of radius = 600 feet, color-coded by flowrate (e.g., `hydrant_red.geojson` contains circle polygons of hydrants with flowrate less than 500 gallons per minute – see [this NFPA page](https://www.soteriafiresa.com/fire-hydrant-colours/) for hydrant flowrates & types)
 
-All data above has been collected from the [Vermont Open Geodata Portal](https://geodata.vermont.gov/), which we are thoroughly grateful for.
+All data above has been collected from the [Vermont Open Geodata Portal](https://geodata.vermont.gov/), which we are thoroughly grateful for. 
 
 ### Limitations of the Maps & Data
  - These maps offer rough estimates of response times and should not be interpreted as exact, reliable fact (the road network and speed data are fetched from openstreetmap.org).
