@@ -27,6 +27,7 @@ However, occasionally, the nearest node on the graph may be a few hundred feet a
 
 
 ### Ethical Implications of Our Work
+
 These maps offer rough estimates of response times and should not be interpreted as exact (see the Limitations section).
 A concern of ours is that future homeowners and insurance companies may seek to use our maps as a tool to discriminate between properties located near and far away from fire stations. Consequently, future homeowners may be less likely to purchase homes located outside of certain response time zones, and insurance companies could choose to raise insurance costs for homes in 
 these areas. We recognize these possibilities and remind our users that these maps offer estimates and should be used for public governance, citizen awareness, and emergency planning. Our hope is that regional planning commissions and state emergency planners can use these maps to inform their work and increase coverage across the state.
