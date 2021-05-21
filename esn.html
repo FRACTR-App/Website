@@ -2,61 +2,42 @@
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
     <title>FRACTR: Emergency Service Zones</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?xml version="1.0" encoding="UTF-8"?>
 
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+    
     <!-- Local CSS -->
     <link rel="stylesheet" href="style.css">
 
-
+    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-   crossorigin=""/>
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
    
-    <script src="https://unpkg.com/shpjs@latest/dist/shp.js"></script>
-
-    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <!-- Leaflet JS library (must go AFTER Leaflet's CSS call) -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
     integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
     crossorigin=""></script>
 
+    <!-- Ajax reads in local geoJson files asynchroneously -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 
-    <!-- ESRI Leaflet, for search bar functionality -->
+    <!-- ESRI Leaflet JS: implements search bar functionality -->
     <script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet/1.0.0-rc.2/esri-leaflet.js"></script>
     <script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.css">
-    <style>
-        .info {
-            padding: 6px 8px;
-            font: 14px/16px Arial, Helvetica, sans-serif;
-            background: white;
-            background: rgba(255,255,255,0.8);
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
-            border-radius: 5px;
-        }
-        .legend {
-            line-height: 18px;
-            color: #555;
-        }
-        .legend i {
-            width: 18px;
-            height: 18px;
-            float: left;
-            margin-right: 8px;
-            opacity: 0.7;
-        }
-    </style>
 </head>
-<body>
 
+<body>
     <nav class="navbar navbar-dark bg-dark navbar-expand-md">
         <div class="container">
             <a class="navbar-brand" href="index.html">
@@ -78,16 +59,18 @@
     <div class="container text-center">
         <div class="p-4 my-4 bg-light text-dark rounded-3">
             <h2>Map of Response Times, bounded by Fire Department Service Zones</h2>
+            <p>The purpose of this map is to show how far a fire engine can respond in 2, 5, 10, and 20 minutes according to its fire department service zone.
+                Service zones, demarcated in red, are used to define fire department jurisdictions and typically fall along town boundaries. For example, the Middlebury
+                Fire Department lives within the Middlebury service zone and is the primary responding fire agency in that zone. In many cases, fire departments have mutual aid 
+                systems in place to call for help from neighboring service zones. 
+                The response time polygons are calculated starting at each of the fire stations and use road speed limits to determine
+                how far an engine can travel in that given timeframe.
+            </p>
         </div>
     </div>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
-
-
     <div id="mapid" class="map-format"></div>
     <script>
-	var mymap = L.map('mapid').setView([44.015402801899796, -73.1684031877857], 13);
+	    var mymap = L.map('mapid').setView([43.96, -72.6], 8);
         
         var baseMap = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>, Data from <a href="https://geodata.vermont.gov/">Vermont GeoData Portal</a>',
@@ -98,9 +81,7 @@
             accessToken: 'pk.eyJ1IjoiamNhbWJlZm9ydCIsImEiOiJja2x6Ym4xaGQwOWUxMnVyM3J2aW54bXhuIn0.vIUQw48WSxIujl74dYNqkA'
         }).addTo(mymap);
 	
-	color_list = ['#1e1656', '#8b2a57','#c26b4c', '#cbbb65']
-        // Path needs the trailing slash
-	base_dir = "./data/"
+	    color_list = ['#1e1656', '#8b2a57','#c26b4c', '#cbbb65']
         
         function poly_style1(feature) {
             return {
@@ -108,7 +89,7 @@
                 weight: 0.5,
                 opacity: 1,
                 color: 'white',
-                fillOpacity: .3
+                fillOpacity: .5
             }
         }
 
@@ -118,7 +99,7 @@
                 weight: 0.5,
                 opacity: 1,
                 color: 'white',
-                fillOpacity: .3
+                fillOpacity: .5
             }
         }
 
@@ -128,7 +109,7 @@
                 weight: 0.5,
                 opacity: 1,
                 color: 'white',
-                fillOpacity: .3
+                fillOpacity: .5
             }
         }
 
@@ -138,7 +119,7 @@
                 weight: 0.5,
                 opacity: 1,
                 color: 'white',
-                fillOpacity: .3
+                fillOpacity: .5
             }
         }
 
@@ -173,6 +154,9 @@
                 results.addLayer(marker);
             }
         });
+
+        // Path needs the trailing slash
+        base_dir = "./data/"
 
         let poly2_path = base_dir.concat("2_esn.geojson");
         let poly5_path = base_dir.concat("5_esn.geojson");
@@ -248,14 +232,14 @@
 	        "Fire Dept. Emergency Service Zones": dissolved
         }
 
-        L.control.layers(null, overlays).addTo(mymap);
+        L.control.layers(null, overlays, {collapsed: false}).addTo(mymap);
 
         function getColor(d) {
             return d.includes("2 ") ? color_list[0] :
-                d.includes("5 ") ? color_list[1] :
-                d.includes("10 ") ? color_list[2] :
-                d.includes("20 ") ? color_list[3] :
-                            '#FFEDA0';
+                    d.includes("5 ") ? color_list[1] :
+                    d.includes("10 ") ? color_list[2] :
+                    d.includes("20 ") ? color_list[3] :
+                    '#FFEDA0';
         }
 
         // Include a map legend
@@ -270,7 +254,7 @@
 
             // loop through list of polygon labels
             for (var i = 0; i < labels.length; i++) {
-            div.innerHTML +=
+                div.innerHTML +=
                     '<i style="background:' + getColor(labels[i]) + '"></i> ' +
                     labels[i] + '<br>';
             }
@@ -281,6 +265,17 @@
 
     </script>
 
+    <div class="container">
+        <div class="p-4 my-4 bg-light text-dark rounded-3">
+            <h4>How to Navigate the Map</h4>
+            <p>This is an interactive map, so please toggle around. The upper-left corner provides buttons to zoom in (+) and out (-). 
+                The magnifying glass lets you search for any address of your choosing and will zoom you in to that location. 
+                The upper-right corner lets you toggle the different data layers on and off. By checking the box, you can toggle the layer on 
+                and by unchecking the box you can toggle the layer off. The bottom-right corner provides a legend for the response time layers. 
+                As the color of the polygons gets lighter, the response time increases and vice versa. 
+            </p>
+        </div>
+    </div>
 </body>
 
 </html>

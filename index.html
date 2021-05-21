@@ -40,7 +40,7 @@
     </nav>
     <div class="container">
         <div class="p-4 my-4 bg-light text-dark text-center rounded-3">
-            <h1>FRACTR: Fire Resource Area Coverage & Response Times</h1>
+            <h1>FRACTR: Fire Resource Area Coverage & Time to Response</h1>
             <h5>
                 Providing Vermont with a visual analysis of fire department response times and water resources in order to 
                 support regional emergency planning and public awareness
@@ -98,7 +98,9 @@
                 <ol class="text-justify">
                     <li>Site Locations, Fire Dept. Emergency Service Zones, and State of Vermont boundary datasets are all collected from the Vermont Open Geodata Portal. Road data is provided by Open Street Maps. </li>
                     <li>Utilizing the Geopandas and OSMnx Python packages, we performed network analyses to create multiple spatial polygon layers based on the response times from every fire station. Dijkstra's shortest-path algorithm is performed on the street network graph. Road distances and speed limits are used to calculate the travel time across an edge. </li>
-                    <li>Using the Leaflet JS package, we display these polygon layers to an interactive map.</li>
+                    <li>Using Geopandas and the Fire Dept. Emergency Service Zones, we bounded the response time polygons by their respective service zones to create the Response Times by Service Zone map.</li>
+                    <li>Again utilizing Geopandas, we created 600 ft buffer polygons around each fire hydrant in the state.</li>
+                    <li>Using the Leaflet JS package, we display these polygon layers (geojson files) to an interactive map.</li>
                 </ol>
             </div>
         </div>
@@ -107,12 +109,16 @@
                 <h4 class="text-center">Ethical Implications</h4>
                 <p class="text-justify">
                     These maps offer rough estimates of response times and should not be interpreted as exact, 
-                    reliable fact. Additionally, future homeowners and insurance companies might use our application 
+                    reliable fact. Fire station response protocols vary and may impact response times. 
+                    Differences in fire station resources are not taken into account. 
+                    Additionally, future homeowners and insurance companies might use our application 
                     as a tool to discriminate between properties located near and far away from fire stations. 
                     Consequently, future homeowners may be less likely to purchase homes located outside of certain 
                     response time zones, and insurance companies could choose to raise insurance costs for homes in 
                     these areas. We recognize these possibilities and remind our users that these maps offer estimates 
-                    and should be used for public governance, citizen awareness, and emergency planning.
+                    and should be used for public governance, citizen awareness, and emergency planning. Our hope is 
+                    that regional planning commissions and state emergency planners can use these maps to inform their 
+                    work and increase coverage across the state. 
                 </p>
             </div>
             <div class="col-md-6">
@@ -140,8 +146,8 @@
             <h4>Links to our code repository and report</h4>
             <ul class="list-inline">
                 <li class="list-inline-item"><a href="https://github.com/This-blank-Is-On-Fire"><i
-                            class="bi-github" role="img" aria-label="GitHub"></i></a></li>
-                <li class="list-inline-item">Add link to report PDF here</li>
+                            class="bi-github" role="img" aria-label="GitHub"></i> GitHub Repositories</a></li>
+                <li class="list-inline-item"><i class="bi-file-earmark-text-fill" role="img" aria-label="Report PDF"></i> Project Report PDF</li>
             </ul>
             <h4>Meet the developers</h4>
             <p>This is a Middlebury College Department of Computer Science Senior Seminar project under the
