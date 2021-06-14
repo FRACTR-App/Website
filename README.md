@@ -22,9 +22,9 @@ All data above has been collected from the [Vermont Open Geodata Portal](https:/
  - Fire station response protocols vary and may impact response times.
  - Differences in fire station resources are not taken into account.
  - Any stations missing on the map were either missing in the original dataset, or misleadingly labeled (e.g., labeled strictly as a law enforcement station).
-- To compute a station's response polygons, a mapping is created between the fire station coordinates and the nearest node on the Open Street Maps network graph.
+ - To compute a station's response polygons, a mapping is created between the fire station coordinates and the nearest node on the Open Street Maps network graph.
 However, occasionally, the nearest node on the graph may be a few hundred feet away from the station and thus the polygon produced is slightly off-centered.
-
+ - For a full list of the project limitations, please see the final report PDF linked on the [project website's homepage](smokenmaps.com).
 
 ### Ethical Implications of Our Work
 
