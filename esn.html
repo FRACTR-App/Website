@@ -80,6 +80,7 @@
             zoomOffset: -1,
             accessToken: 'pk.eyJ1IjoiamNhbWJlZm9ydCIsImEiOiJja2x6Ym4xaGQwOWUxMnVyM3J2aW54bXhuIn0.vIUQw48WSxIujl74dYNqkA'
         }).addTo(mymap);
+        mymap.setMaxBounds(mymap.getBounds());
 	
 	    color_list = ['#1e1656', '#8b2a57','#c26b4c', '#cbbb65']
         
@@ -123,16 +124,6 @@
             }
         }
 
-        function marker_style(feature) {
-            return {
-                fillColor: 'blue',
-                weight: 2,
-                opacity: 1,
-                color: 'white',
-                fillOpacity: .8
-            }
-        }
-
         function zones_style(feature) {
             return {
                 fillColor: 'gray',
@@ -162,16 +153,63 @@
         let poly5_path = base_dir.concat("5_esn.geojson");
         let poly10_path = base_dir.concat("10_esn.geojson");
         let poly20_path = base_dir.concat("20_esn.geojson");
-        let stations_path = base_dir.concat("fire_station_coords.geojson");
-        let zones_path = base_dir.concat("zone_polygons.geojson");
+        let stations_path = base_dir.concat("updated_stations_coords.geojson");
         let dissolved_path = base_dir.concat("dissolved_zones.geojson");
 
         var poly2 = L.geoJSON(null, {style:poly_style1} );
         var poly5 = L.geoJSON(null, {style:poly_style2} );
         var poly10 = L.geoJSON(null, {style:poly_style3} );
         var poly20 = L.geoJSON(null, {style:poly_style4} ).addTo(mymap);
-        var stations = L.geoJSON(null, {style:marker_style} ).addTo(mymap);
         var dissolved = L.geoJSON(null, {style:zones_style} ).addTo(mymap);
+        var stations = L.geoJson(null, {
+            pointToLayer: function(feature, latLng) {
+                // Generate marker based on the department type
+                dept_type = feature.properties.Department_Type;
+                //console.log(dept_type);
+                switch (dept_type) {
+                    case "Volunteer Department":
+                        var icon_type = 'fire-extinguisher';
+                        var icon_prefix = 'fa';
+                        var marker_color = 'red';
+                        //console.log("it's a volunteer department");
+                        break;
+                    case "Career Department":
+                        var icon_type = 'fire-extinguisher';
+                        var icon_prefix = 'fa';
+                        var marker_color = 'orange';
+                        //console.log("it's a career department");
+                        break;
+                    case "Combination":
+                        var icon_type = 'fire-extinguisher';
+                        var icon_prefix = 'fa';
+                        var marker_color = 'purple';
+                        //console.log("it's a combo department");
+                        break;
+                    default:
+                        var icon_type = 'fire-extinguisher';
+                        var icon_prefix = 'fa';
+                        var marker_color = 'darkred';
+                        //console.log("it's an unknown type");
+                }
+                var icon_marker = L.AwesomeMarkers.icon({
+                    icon: icon_type,
+                    prefix: icon_prefix,
+                    markerColor: marker_color
+                });
+                var marker = new L.marker(latLng, {
+                    icon: icon_marker,
+                    //title: this.tooltip
+                });
+                var latLon = feature.geometry.coordinates[1] + "," +
+                    feature.geometry.coordinates[0] + ",0,0";    
+                //console.log(latLon)
+
+                var popupText = feature.properties.Department_Name;
+                popupText += "<br>Type: " +feature.properties.Department_Type;
+                marker.bindPopup(popupText);
+                return marker;
+            }
+        });
 
         // Use JQuery to import the geoJSON file
         $.getJSON(poly2_path, function(data) {
@@ -194,18 +232,13 @@
             poly20.addData(data);
         });
 
-        $.getJSON(stations_path, function(data) {
-            stations.setStyle(marker_style);
+        $.getJSON(stations_path, function(data) {            
             stations.addData(data);
-        });
+        }); 
 
         $.getJSON(dissolved_path, function(data) {
             dissolved.setStyle(zones_style);
             dissolved.addData(data);
-        });
-
-        stations.bindPopup(function (layer) {
-            return layer.feature.properties.TOWNNAME;
         });
 
         // Wait at least half a second to allow for other geojsons to download
