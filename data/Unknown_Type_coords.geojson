@@ -1,0 +1,7 @@
+{
+"type": "FeatureCollection",
+"features": [
+{ "type": "Feature", "properties": { "HYDRANTID": 550344, "FLOWRATE": "unknown", "HYDRANTTYPE": "Unknown Type" }, "geometry": { "type": "Point", "coordinates": [ -72.343869625509313, 43.648656719683466 ] } },
+{ "type": "Feature", "properties": { "HYDRANTID": 550343, "FLOWRATE": "unknown", "HYDRANTTYPE": "Unknown Type" }, "geometry": { "type": "Point", "coordinates": [ -72.344306653337441, 43.647697586198412 ] } }
+]
+}
