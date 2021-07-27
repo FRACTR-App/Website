@@ -15,6 +15,17 @@
         integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
     
+    <!-- Awesome Markers CSS -->
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./dist/leaflet.awesome-markers.css">
+
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+
+    <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+    <script src="https://kit.fontawesome.com/27cc898e82.js" crossorigin="anonymous"></script>
+
+
     <!-- Local CSS -->
     <link rel="stylesheet" href="style.css">
 
@@ -68,7 +79,11 @@
             </p>
         </div>
     </div>
+    
     <div id="mapid" class="map-format"></div>
+    <script src="./dist/leaflet.awesome-markers.js"></script>
+
+
     <script>
 	    var mymap = L.map('mapid').setView([43.96, -72.6], 8);
         
@@ -154,13 +169,13 @@
         let poly10_path = base_dir.concat("10_esn.geojson");
         let poly20_path = base_dir.concat("20_esn.geojson");
         let stations_path = base_dir.concat("updated_stations_coords.geojson");
-        let dissolved_path = base_dir.concat("dissolved_zones.geojson");
+        let zones_path = base_dir.concat("esn_zones.geojson");
 
         var poly2 = L.geoJSON(null, {style:poly_style1} );
         var poly5 = L.geoJSON(null, {style:poly_style2} );
         var poly10 = L.geoJSON(null, {style:poly_style3} );
         var poly20 = L.geoJSON(null, {style:poly_style4} ).addTo(mymap);
-        var dissolved = L.geoJSON(null, {style:zones_style} ).addTo(mymap);
+        var zones = L.geoJSON(null, {style:zones_style} ).addTo(mymap);
         var stations = L.geoJson(null, {
             pointToLayer: function(feature, latLng) {
                 // Generate marker based on the department type
@@ -236,9 +251,9 @@
             stations.addData(data);
         }); 
 
-        $.getJSON(dissolved_path, function(data) {
-            dissolved.setStyle(zones_style);
-            dissolved.addData(data);
+        $.getJSON(zones_path, function(data) {
+            zones.setStyle(zones_style);
+            zones.addData(data);
         });
 
         // Wait at least half a second to allow for other geojsons to download
@@ -262,7 +277,7 @@
             "10 minutes": poly10,
             "20 minutes": poly20,
             "Stations": stations,
-	        "Fire Dept. Emergency Service Zones": dissolved
+	        "Fire Dept. Emergency Service Zones": zones
         }
 
         L.control.layers(null, overlays, {collapsed: false}).addTo(mymap);
