@@ -15,6 +15,16 @@
         integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
     
+    <!-- Awesome Markers CSS -->
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./dist/leaflet.awesome-markers.css">
+
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+
+    <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+    <script src="https://kit.fontawesome.com/27cc898e82.js" crossorigin="anonymous"></script>
+
     <!-- Local CSS -->
     <link rel="stylesheet" href="style.css">
 
@@ -69,6 +79,10 @@
     </div>
 
     <div id="mapid" class="map-format"></div>
+
+    
+    <script src="./dist/leaflet.awesome-markers.js"></script>
+
     <script>
         var mymap = L.map('mapid').setView([43.96, -72.6], 8);
         
@@ -80,48 +94,20 @@
             zoomOffset: -1,
             accessToken: 'pk.eyJ1IjoiamNhbWJlZm9ydCIsImEiOiJja2x6Ym4xaGQwOWUxMnVyM3J2aW54bXhuIn0.vIUQw48WSxIujl74dYNqkA'
         }).addTo(mymap);
+        mymap.setMaxBounds(mymap.getBounds());
 
-        color_list = ['green', 'orange','red', 'gray']
-        
-        function poly_style1(feature) {
+        color_list = ['blue', 'green', 'orange','red', 'gray']
+
+        function water_style(feature) {
             return {
-                fillColor: color_list[0],
+                fillColor: "#00008b",
                 weight: 0.5,
                 opacity: 1,
-                color: color_list[0],
-                fillOpacity: .5
+                color: "#00008b",
+                fillOpacity: .8
             }
         }
 
-        function poly_style2(feature) {
-            return {
-                fillColor: color_list[1],
-                weight: 0.5,
-                opacity: 1,
-                color: color_list[1],
-                fillOpacity: .5
-            }
-        }
-
-        function poly_style3(feature) {
-            return {
-                fillColor: color_list[2],
-                weight: 0.5,
-                opacity: 1,
-                color: color_list[2],
-                fillOpacity: .5
-            }
-        }
-
-        function poly_style4(feature) {
-            return {
-                fillColor: color_list[3],
-                weight: 0.5,
-                opacity: 1,
-                color: color_list[3],
-                fillOpacity: .5
-            }
-        }
 
         // Search Bar
         var searchControl = new L.esri.Controls.Geosearch().addTo(mymap);
@@ -138,50 +124,220 @@
         // Path needs the trailing slash
         base_dir = "./data/"
 
-        let green_path = base_dir.concat("hydrant_green.geojson");
-        let orange_path = base_dir.concat("hydrant_orange.geojson");
-        let red_path = base_dir.concat("hydrant_red.geojson");
-        let unknown_path = base_dir.concat("hydrant_unknown.geojson");
+        let municipal_path = base_dir.concat("Municipal_Hydrant_buffers.geojson");
+        let pressurized_path = base_dir.concat("Pressurized_Hydrant_buffers.geojson");
+        let dry_path = base_dir.concat("Dry_Hydrant_buffers.geojson");
+        let draft_site_path = base_dir.concat("Drafting_Site_buffers.geojson");
+        let unknown_path = base_dir.concat("Unknown_Type_buffers.geojson");
 
-        var green = L.geoJSON(null, {style:poly_style1} ).addTo(mymap);
-        var orange = L.geoJSON(null, {style:poly_style2} ).addTo(mymap);
-        var red = L.geoJSON(null, {style:poly_style3} ).addTo(mymap);
-        var unknown = L.geoJSON(null, {style:poly_style4} ).addTo(mymap);
+        var municipal_hydrants = L.geoJSON(null, {
+            style: function (feature) {
+                flow_rate = feature.properties.FLOWRATE;
+                console.log(flow_rate);
+                switch (flow_rate) {
+                    case "blue":
+                        return {color: "blue"};
+                    case "green":
+                        return {color: "green"};
+                    case "orange":
+                        return {color: "orange"};
+                    case "red":
+                        return {color: "red"};
+                    case "unknown":
+                        return {color: "gray"};
+                    default:
+                        return {color: "gray"};
+                }
+            }
+        }).bindPopup(function (layer) {
+            var hydrant_flow = layer.feature.properties.FLOWRATE;
+            var hydrant_type = layer.feature.properties.HYDRANTTYPE;
+            var hydrant_id = layer.feature.properties.HYDRANTID;
+            var popup_text = "Hydrant ID: " + hydrant_id;
+            popup_text+= "<br>Hydrant type: " + hydrant_type;
+            popup_text+= "<br>Flow rate color: " + hydrant_flow;
+            return popup_text;
+        }).addTo(mymap);
 
-        $.getJSON(green_path, function(data) {
-            green.setStyle(poly_style1);
-            green.addData(data);
+
+        var pressurized_hyrants = L.geoJSON(null, {
+            style: function (feature) {
+                flow_rate = feature.properties.FLOWRATE;
+                console.log(flow_rate);
+                switch (flow_rate) {
+                    case "blue":
+                        return {color: "blue"};
+                    case "green":
+                        return {color: "green"};
+                    case "orange":
+                        return {color: "orange"};
+                    case "red":
+                        return {color: "red"};
+                    case "unknown":
+                        return {color: "gray"};
+                    default:
+                        return {color: "gray"};
+                }
+            }
+        }).bindPopup(function (layer) {
+            var hydrant_flow = layer.feature.properties.FLOWRATE;
+            var hydrant_type = layer.feature.properties.HYDRANTTYPE;
+            var hydrant_id = layer.feature.properties.HYDRANTID;
+            var popup_text = "Hydrant ID: " + hydrant_id;
+            popup_text+= "<br>Hydrant type: " + hydrant_type;
+            popup_text+= "<br>Flow rate color: " + hydrant_flow;
+            return popup_text;
+        }).addTo(mymap);
+
+        var dry_hydrants = L.geoJSON(null, {
+            style: function (feature) {
+                flow_rate = feature.properties.FLOWRATE;
+                console.log(flow_rate);
+                switch (flow_rate) {
+                    case "blue":
+                        return {color: "blue"};
+                    case "green":
+                        return {color: "green"};
+                    case "orange":
+                        return {color: "orange"};
+                    case "red":
+                        return {color: "red"};
+                    case "unknown":
+                        return {color: "gray"};
+                    default:
+                        return {color: "gray"};
+                }
+            }
+        }).bindPopup(function (layer) {
+            var hydrant_flow = layer.feature.properties.FLOWRATE;
+            var hydrant_type = layer.feature.properties.HYDRANTTYPE;
+            var hydrant_id = layer.feature.properties.HYDRANTID;
+            var popup_text = "Hydrant ID: " + hydrant_id;
+            popup_text+= "<br>Hydrant type: " + hydrant_type;
+            popup_text+= "<br>Flow rate color: " + hydrant_flow;
+            return popup_text;
+        }).addTo(mymap);
+
+        var drafting_sites = L.geoJSON(null, {
+            style: function (feature) {
+                flow_rate = feature.properties.FLOWRATE;
+                console.log(flow_rate);
+                switch (flow_rate) {
+                    case "blue":
+                        return {color: "blue"};
+                    case "green":
+                        return {color: "green"};
+                    case "orange":
+                        return {color: "orange"};
+                    case "red":
+                        return {color: "red"};
+                    case "unknown":
+                        return {color: "gray"};
+                    default:
+                        return {color: "gray"};
+                }
+            }
+        }).bindPopup(function (layer) {
+            var hydrant_flow = layer.feature.properties.FLOWRATE;
+            var hydrant_type = layer.feature.properties.HYDRANTTYPE;
+            var hydrant_id = layer.feature.properties.HYDRANTID;
+            var popup_text = "Hydrant ID: " + hydrant_id;
+            popup_text+= "<br>Hydrant type: " + hydrant_type;
+            popup_text+= "<br>Flow rate color: " + hydrant_flow;
+            return popup_text;
+        }).addTo(mymap);
+
+        var unknown_hydrants = L.geoJSON(null, {
+            style: function (feature) {
+                flow_rate = feature.properties.FLOWRATE;
+                console.log(flow_rate);
+                switch (flow_rate) {
+                    case "blue":
+                        return {color: "blue"};
+                    case "green":
+                        return {color: "green"};
+                    case "orange":
+                        return {color: "orange"};
+                    case "red":
+                        return {color: "red"};
+                    case "unknown":
+                        return {color: "gray"};
+                    default:
+                        return {color: "gray"};
+                }
+            }
+        }).bindPopup(function (layer) {
+            var hydrant_flow = layer.feature.properties.FLOWRATE;
+            var hydrant_type = layer.feature.properties.HYDRANTTYPE;
+            var hydrant_id = layer.feature.properties.HYDRANTID;
+            var popup_text = "Hydrant ID: " + hydrant_id;
+            popup_text+= "<br>Hydrant type: " + hydrant_type;
+            popup_text+= "<br>Flow rate color: " + hydrant_flow;
+            return popup_text;
+        }).addTo(mymap);
+        
+
+        $.getJSON(municipal_path, function(data) {
+            municipal_hydrants.addData(data);
         });
 
-        $.getJSON(orange_path, function(data) {
-            orange.setStyle(poly_style2);
-            orange.addData(data);
+        $.getJSON(pressurized_path, function(data) {
+            pressurized_hyrants.addData(data);
         });
 
-        $.getJSON(red_path, function(data) {
-            red.setStyle(poly_style3);
-            red.addData(data);
+        $.getJSON(dry_path, function(data) {
+            dry_hydrants.addData(data);
+        });
+
+        $.getJSON(draft_site_path, function(data) {
+            drafting_sites.addData(data);
         });
 
         $.getJSON(unknown_path, function(data) {
-            unknown.setStyle(poly_style4);
-            unknown.addData(data);
+            unknown_hydrants.addData(data);
         });
+
+        // $.getJSON(water_path, function(data) {
+        //     water.setStyle(water_style);
+        //     water.addData(data);
+        // });
+        
+        // mymap.on('zoomend', function() {
+        //     var zoomlevel = mymap.getZoom();
+        //         if (zoomlevel  <15){
+        //             if (mymap.hasLayer(water)) {
+        //                 mymap.removeLayer(water);
+        //             } else {
+        //                 console.log("no water layer active");
+        //             }
+        //         }
+        //         if (zoomlevel >= 15){
+        //             if (mymap.hasLayer(water)){
+        //                 console.log("layer already added");
+        //             } else {
+        //                 mymap.addLayer(water);
+        //             }
+        //         }
+        //     console.log("Current Zoom Level =" + zoomlevel)
+        // });
+
         
         var overlays = {
-            "Red hydrants: < 500 gpm": red,
-            "Orange Hydrants: 500-999 gpm": orange,
-            "Green Hydrants: 1,000–1,499 gpm": green,
-            "Hydrants with unknown flowrate": unknown
-        }
+            "Municipal Hydrants": municipal_hydrants,
+            "Pressurized Hydrants": pressurized_hyrants,
+            "Dry Hydrants": dry_hydrants,
+            "Drafting Sites": drafting_sites,
+            "Unknown Hydrant Type": unknown_hydrants
+        };
 
         L.control.layers(null, overlays, {collapsed: false}).addTo(mymap);
 
         function getColor(d) {
-            return d.includes("Green") ? color_list[0] :
-                    d.includes("Orange") ? color_list[1] :
-                    d.includes("Red") ? color_list[2] :
-                    d.includes("unknown") ? color_list[3] :
+            return d.includes("Blue") ? color_list[0] :
+                    d.includes("Green") ? color_list[1]:
+                    d.includes("Orange") ? color_list[2] :
+                    d.includes("Red") ? color_list[3] :
+                    d.includes("unknown") ? color_list[4] :
                     '#FFEDA0';
         }
 
@@ -193,6 +349,7 @@
                 labels = ["Red hydrants: < 500 gpm",
                 "Orange Hydrants: 500-999 gpm",
                 "Green Hydrants: 1,000–1,499 gpm",
+                "Blue Hydrants: > 1,500 gpm",
                 "Hydrants with unknown flowrate"];
 
             // loop through list of polygon labels

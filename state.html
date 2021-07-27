@@ -15,6 +15,17 @@
         integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
     
+    <!-- Awesome Markers CSS -->
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./dist/leaflet.awesome-markers.css">
+
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+
+    <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+    <script src="https://kit.fontawesome.com/27cc898e82.js" crossorigin="anonymous"></script>
+
+
     <!-- Local CSS -->
     <link rel="stylesheet" href="style.css">
 
@@ -35,6 +46,7 @@
     <script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet/1.0.0-rc.2/esri-leaflet.js"></script>
     <script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.css">
+
 </head>
 
 <body>
@@ -70,18 +82,25 @@
     </div>
 
     <div id="mapid" class="map-format"></div>
+
+    <script src="./dist/leaflet.awesome-markers.js"></script>
+
     <script>
         var mymap = L.map('mapid').setView([43.96, -72.6], 8);
 
         var baseMap = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>, Data from <a href="https://geodata.vermont.gov/">Vermont GeoData Portal</a>',
             maxZoom: 18,
+            minZoom: 4,
             id: 'mapbox/streets-v11',
             tileSize: 512,
             zoomOffset: -1,
             accessToken: 'pk.eyJ1IjoiamNhbWJlZm9ydCIsImEiOiJja2x6Ym4xaGQwOWUxMnVyM3J2aW54bXhuIn0.vIUQw48WSxIujl74dYNqkA'
         }).addTo(mymap);
-
+        mymap.setMaxBounds(mymap.getBounds());
+    
+        //L.tileLayer('data/building_density_res/{z}/{x}/{y}.png').addTo(mymap);
+        
         color_list = ['#1e1656', '#8b2a57', '#c26b4c', '#cbbb65']
         
         function poly_style1(feature) {
@@ -124,16 +143,6 @@
             }
         }
 
-        function marker_style(feature) {
-            return {
-                fillColor: 'blue',
-                weight: 2,
-                opacity: 1,
-                color: 'white',
-                fillOpacity: .8
-            }
-        }
-
         function zones_style(feature) {
             return {
                 fillColor: 'gray',
@@ -148,11 +157,11 @@
         var searchControl = new L.esri.Controls.Geosearch().addTo(mymap);
 
         var results = new L.LayerGroup().addTo(mymap);
-        searchControl.on('results', function (data) {
+        searchControl.on('results', function(data) {
             results.clearLayers();
             for (var i = data.results.length - 1; i >= 0; i--) {
-                var marker = L.marker(data.results[i].latlng, { fillColor: "green" });
-                results.addLayer(marker);
+            var marker = L.marker(data.results[i].latlng, {fillColor: "green"});
+            results.addLayer(marker);
             }
         });
 
@@ -163,15 +172,63 @@
         let poly5_path = base_dir.concat("5.geojson");
         let poly10_path = base_dir.concat("10.geojson");
         let poly20_path = base_dir.concat("20.geojson");
-        let stations_path = base_dir.concat("fire_station_coords.geojson");
-        let dissolved_path = base_dir.concat("dissolved_zones.geojson");
+        let stations_path = base_dir.concat("updated_stations_coords.geojson");
+        let zones_path = base_dir.concat("esn_zones.geojson");
 
         var poly2 = L.geoJSON(null, {style:poly_style1} );
         var poly5 = L.geoJSON(null, {style:poly_style2} );
         var poly10 = L.geoJSON(null, {style:poly_style3} );
         var poly20 = L.geoJSON(null, {style:poly_style4} ).addTo(mymap);
-        var stations = L.geoJSON(null, {style:marker_style} ).addTo(mymap);
-        var dissolved = L.geoJSON(null, {style:zones_style} );
+        var zones = L.geoJSON(null, {style:zones_style} );
+        var stations = L.geoJson(null, {
+            pointToLayer: function(feature, latLng) {
+                // Generate marker based on the department type
+                dept_type = feature.properties.Department_Type;
+                //console.log(dept_type);
+                switch (dept_type) {
+                    case "Volunteer Department":
+                        var icon_type = 'fire-extinguisher';
+                        var icon_prefix = 'fa';
+                        var marker_color = 'red';
+                        //console.log("it's a volunteer department");
+                        break;
+                    case "Career Department":
+                        var icon_type = 'fire-extinguisher';
+                        var icon_prefix = 'fa';
+                        var marker_color = 'orange';
+                        //console.log("it's a career department");
+                        break;
+                    case "Combination":
+                        var icon_type = 'fire-extinguisher';
+                        var icon_prefix = 'fa';
+                        var marker_color = 'purple';
+                        //console.log("it's a combo department");
+                        break;
+                    default:
+                        var icon_type = 'fire-extinguisher';
+                        var icon_prefix = 'fa';
+                        var marker_color = 'darkred';
+                        //console.log("it's an unknown type");
+                }
+                var icon_marker = L.AwesomeMarkers.icon({
+                    icon: icon_type,
+                    prefix: icon_prefix,
+                    markerColor: marker_color
+                });
+                var marker = new L.marker(latLng, {
+                    icon: icon_marker,
+                    //title: this.tooltip
+                });
+                var latLon = feature.geometry.coordinates[1] + "," +
+                    feature.geometry.coordinates[0] + ",0,0";    
+                //console.log(latLon)
+
+                var popupText = "Name: " + feature.properties.Department_Name;
+                popupText += "<br>Type: " +feature.properties.Department_Type;
+                marker.bindPopup(popupText);
+                return marker;
+            }
+        });
 
         // Use JQuery to import the geoJSON file
         $.getJSON(poly2_path, function (data) {
@@ -194,18 +251,13 @@
             poly20.addData(data);
         });
 
-        $.getJSON(stations_path, function (data) {
-            stations.setStyle(marker_style);
+        $.getJSON(stations_path, function(data) {            
             stations.addData(data);
-        });
+        }); 
 
-        $.getJSON(dissolved_path, function (data) {
-            dissolved.setStyle(zones_style);
-            dissolved.addData(data);
-        });
-
-        stations.bindPopup(function (layer) {
-            return layer.feature.properties.TOWNNAME;
+        $.getJSON(zones_path, function (data) {
+            zones.setStyle(zones_style);
+            zones.addData(data);
         });
         
         // Add the 20 minute polygon layer first (should be on the bottom)
@@ -232,7 +284,7 @@
             "10 minutes": poly10,
             "20 minutes": poly20,
             "Stations": stations,
-            "Fire Dept. Emergency Service Zones": dissolved
+            "Fire Dept. Emergency Service Zones": zones
         }
 
         L.control.layers(null, overlays, {collapsed: false}).addTo(mymap);
