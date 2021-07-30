@@ -57,7 +57,8 @@
                 <img src="images/logo2.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
                 FRACTR
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
@@ -97,9 +98,19 @@
             zoomOffset: -1,
             accessToken: 'pk.eyJ1IjoiamNhbWJlZm9ydCIsImEiOiJja2x6Ym4xaGQwOWUxMnVyM3J2aW54bXhuIn0.vIUQw48WSxIujl74dYNqkA'
         }).addTo(mymap);
-        mymap.setMaxBounds(mymap.getBounds());
-    
-        //L.tileLayer('data/building_density_res/{z}/{x}/{y}.png').addTo(mymap);
+        //console.log((mymap.getBounds()).toString());
+        mymap.setMaxBounds(mymap.getBounds().pad(1));
+
+        // var Esri_World_Imagery = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        //     attribution: 'Tiles &copy; Esri &mdash; Esri, DigitalGlobe, GeoEye, Earthstar Geographics, CNES/Airbus DS, USDA, USGS, AEX, Getmapping, Aerogrid, IGN, IGP, swisstopo, and the GIS User Community',
+        //     maxZoom: 18
+        //     // detectRetina: true
+        // });
+        var googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+            maxZoom: 18,
+            minZoom: 4,
+            subdomains:['mt0','mt1','mt2','mt3']
+        });
         
         color_list = ['#1e1656', '#8b2a57', '#c26b4c', '#cbbb65']
         
@@ -279,10 +290,12 @@
 
         // Allow user to toggle layers
         var overlays = {
-            "2 minutes": poly2,
-            "5 minutes": poly5,
-            "10 minutes": poly10,
-            "20 minutes": poly20,
+            //"ESRI": Esri_World_Imagery,
+            "Google Hybrid Base Map": googleHybrid,
+            "2 Minute Response Area": poly2,
+            "5 Minute Response Area": poly5,
+            "10 Minute Response Area": poly10,
+            "20 Minute Response Area": poly20,
             "Stations": stations,
             "Fire Dept. Emergency Service Zones": zones
         }

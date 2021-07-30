@@ -95,8 +95,14 @@
             zoomOffset: -1,
             accessToken: 'pk.eyJ1IjoiamNhbWJlZm9ydCIsImEiOiJja2x6Ym4xaGQwOWUxMnVyM3J2aW54bXhuIn0.vIUQw48WSxIujl74dYNqkA'
         }).addTo(mymap);
-        mymap.setMaxBounds(mymap.getBounds());
+        mymap.setMaxBounds(mymap.getBounds().pad(1));
 	
+        var googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+            maxZoom: 18,
+            minZoom: 4,
+            subdomains:['mt0','mt1','mt2','mt3']
+        });
+
 	    color_list = ['#1e1656', '#8b2a57','#c26b4c', '#cbbb65']
         
         function poly_style1(feature) {
@@ -272,12 +278,13 @@
 
         // Allow user to toggle layers
         var overlays = {
-            "2 minutes": poly2,
-            "5 minutes": poly5,
-            "10 minutes": poly10,
-            "20 minutes": poly20,
+            "Google Hybrid Base Map": googleHybrid,
+            "2 Minute Response Area": poly2,
+            "5 Minute Response Area": poly5,
+            "10 Minute Response Area": poly10,
+            "20 Minute Response Area": poly20,
             "Stations": stations,
-	        "Fire Dept. Emergency Service Zones": zones
+            "Fire Dept. Emergency Service Zones": zones
         }
 
         L.control.layers(null, overlays, {collapsed: false}).addTo(mymap);
