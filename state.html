@@ -97,7 +97,13 @@
             zoomOffset: -1,
             accessToken: 'pk.eyJ1IjoiamNhbWJlZm9ydCIsImEiOiJja2x6Ym4xaGQwOWUxMnVyM3J2aW54bXhuIn0.vIUQw48WSxIujl74dYNqkA'
         }).addTo(mymap);
-        mymap.setMaxBounds(mymap.getBounds());
+        mymap.setMaxBounds(mymap.getBounds().pad(1));
+
+        var googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+            maxZoom: 18,
+            minZoom: 4,
+            subdomains:['mt0','mt1','mt2','mt3']
+        });
     
         //L.tileLayer('data/building_density_res/{z}/{x}/{y}.png').addTo(mymap);
         
@@ -279,6 +285,7 @@
 
         // Allow user to toggle layers
         var overlays = {
+            "Satellite Base Map": googleHybrid,
             "2 minutes": poly2,
             "5 minutes": poly5,
             "10 minutes": poly10,
