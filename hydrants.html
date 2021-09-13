@@ -94,7 +94,13 @@
             zoomOffset: -1,
             accessToken: 'pk.eyJ1IjoiamNhbWJlZm9ydCIsImEiOiJja2x6Ym4xaGQwOWUxMnVyM3J2aW54bXhuIn0.vIUQw48WSxIujl74dYNqkA'
         }).addTo(mymap);
-        mymap.setMaxBounds(mymap.getBounds());
+        mymap.setMaxBounds(mymap.getBounds().pad(1));
+
+        var googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+            maxZoom: 18,
+            minZoom: 4,
+            subdomains:['mt0','mt1','mt2','mt3']
+        });
 
         color_list = ['blue', 'green', 'orange','red', 'gray']
 
@@ -323,6 +329,7 @@
 
         
         var overlays = {
+            "Satellite Base Map": googleHybrid,
             "Municipal Hydrants": municipal_hydrants,
             "Pressurized Hydrants": pressurized_hyrants,
             "Dry Hydrants": dry_hydrants,
